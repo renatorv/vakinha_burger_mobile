@@ -1,8 +1,7 @@
 import 'dart:developer';
-
+import 'package:vakinha_burger_mobile/app/core/exceptions/user_not_found_exception.dart';
 import 'package:vakinha_burger_mobile/app/core/rest_client/rest_client.dart';
 import 'package:vakinha_burger_mobile/app/models/user_model.dart';
-
 import './auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -39,8 +38,37 @@ class AuthRepositoryImpl implements AuthRepository {
       throw RestClientException(message);
     }
 
-    return UserModel.fromJson('text');
+    return login(email, password);
+  }
+
+  @override
+  Future<UserModel> login(String email, String password) async {
+    final result = await _restClient.post(
+      '/auth/',
+      {
+        'email': email,
+        'password': password,
+      },
+    );
+
+    if (result.hasError) {
+      if (result.statusCode == 403) {
+        log(
+          'Usuário ou senha inválidos.',
+          error: result.statusText,
+          stackTrace: StackTrace.current,
+        );
+        throw UserNotFoundException();
+      }
+
+      log(
+        'Erro ao autenticar o usuário (${result.statusCode})',
+        error: result.statusText,
+        stackTrace: StackTrace.current,
+      );
+      throw RestClientException('Erro ao autenticar o usuário');
+    }
+
+    return UserModel.fromMap(result.body);
   }
 }
-
-parei: 28 minutos da aula 2

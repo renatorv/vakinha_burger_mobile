@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vakinha_burger_mobile/app/core/bindings/application_bindings.dart';
 import 'package:vakinha_burger_mobile/app/core/ui/vakinha_ui.dart';
 import 'package:vakinha_burger_mobile/app/routes/auth_routers.dart';
 import 'package:vakinha_burger_mobile/app/routes/splash_routes.dart';
@@ -17,6 +18,7 @@ class VakinhaBurgerMainApp extends StatelessWidget {
       theme: VakinhaUi.theme,
       debugShowCheckedModeBanner: false,
       title: 'Vakinha Burger',
+      initialBinding: ApplicationBindings(),
       getPages: [
         ...SplashRoutes.routers,
         ...AuthRouters.routers,
@@ -24,3 +26,5 @@ class VakinhaBurgerMainApp extends StatelessWidget {
     );
   }
 }
+
+56 minutos
