@@ -26,5 +26,3 @@ class VakinhaBurgerMainApp extends StatelessWidget {
     );
   }
 }
-
-56 minutos
